@@ -7,8 +7,9 @@ import util.DateUtils;
  *
  * @author Andre
  */
-public abstract class Pessoa implements Comparable<Pessoa>, IDescricao{
+public abstract class Pessoa implements Comparable<Pessoa>, IDescricao {
 
+    protected Integer id;
     protected String nome;
     protected String cpf;
     protected String email;
@@ -16,12 +17,12 @@ public abstract class Pessoa implements Comparable<Pessoa>, IDescricao{
     protected LocalDate dataNascimento;
     protected Endereco endereco;
 
-
     public Pessoa() {
         endereco = new Endereco();
     }
 
-    public Pessoa(String nome, String cpf, String email, String genero, LocalDate dataNascimento, Endereco endereco) {
+    public Pessoa(Integer id, String nome, String cpf, String email, String genero, LocalDate dataNascimento, Endereco endereco) {
+        this.id = id;
         this.nome = nome;
         this.cpf = cpf;
         this.email = email;
@@ -30,6 +31,13 @@ public abstract class Pessoa implements Comparable<Pessoa>, IDescricao{
         this.endereco = endereco;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getNome() {
         return nome;
@@ -78,9 +86,8 @@ public abstract class Pessoa implements Comparable<Pessoa>, IDescricao{
     public void setGenero(String genero) {
         this.genero = genero;
     }
-    
 
-    public long calcularIdade(){
+    public long calcularIdade() {
         return DateUtils.quantidadeAnosEntreDatas(dataNascimento, LocalDate.now());
     }
 
@@ -89,23 +96,21 @@ public abstract class Pessoa implements Comparable<Pessoa>, IDescricao{
         return this.nome.compareToIgnoreCase(o.getNome());
     }
 
-    
-    public String getInformacoes(){
-        return nome + " | Cpf: " + cpf + " | Idade: " + calcularIdade() + " anos " +
-                " | Cidade: "+ endereco.getCidade() + "| Rua : " + endereco.getRua() + ", " + endereco.getNumero();
+    public String getInformacoes() {
+        return nome + " | Cpf: " + cpf + " | Idade: " + calcularIdade() + " anos "
+                + " | Cidade: " + endereco.getCidade() + "| Rua : " + endereco.getRua() + ", " + endereco.getNumero();
     }
-   
-    public void exibirInformacoes(){
+
+    public void exibirInformacoes() {
         System.out.println(getInformacoes());
     }
 
     @Override
     /**
-     * Retorna a propriedade que melhor descreve/representa o objeto 
+     * Retorna a propriedade que melhor descreve/representa o objeto
      */
     public String getDescricao() {
         return nome;
     }
-
 
 }

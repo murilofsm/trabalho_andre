@@ -7,10 +7,11 @@ public class Docente extends Funcionario{
     public Docente() {
     }
 
-    public Docente(String formacao, String ctps, double salario, String nome, String cpf, String email, String genero, LocalDate dataNascimento, Endereco endereco) {
-        super(ctps, salario, nome, cpf, email, genero, dataNascimento, endereco);
-        this.formacao = formacao;
+    public Docente(String ctps, double salario, Integer id, String nome, String cpf, String email, String genero, LocalDate dataNascimento, Endereco endereco) {
+        super(ctps, salario, id, nome, cpf, email, genero, dataNascimento, endereco);
     }
+
+ 
     
     protected String formacao;
 

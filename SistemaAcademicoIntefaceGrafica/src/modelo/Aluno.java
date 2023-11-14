@@ -12,13 +12,15 @@ public class Aluno extends Pessoa{
         this.curso = new Curso();
     }
 
-    public Aluno(String ra, Curso curso, LocalDate dataMatricula, String situacao, String nome, String cpf, String email, String genero, LocalDate dataNascimento, Endereco endereco) {
-        super(nome, cpf, email, genero, dataNascimento, endereco);
+    public Aluno(String ra, Curso curso, LocalDate dataMatricula, String situacao, Integer id, String nome, String cpf, String email, String genero, LocalDate dataNascimento, Endereco endereco) {
+        super(id, nome, cpf, email, genero, dataNascimento, endereco);
         this.ra = ra;
         this.curso = curso;
         this.dataMatricula = dataMatricula;
         this.situacao = situacao;
     }
+
+
 
 
     public String getRa() {
