@@ -4,14 +4,13 @@ package persistencia;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 /**
  *
  * @author Murilo
  */
 public class codigos_criacao_banco {
     /*
-drop database db_faculdadefinal;
+  drop database db_faculdadefinal;
 
 
 CREATE DATABASE db_faculdadefinal;
@@ -111,4 +110,5 @@ CREATE TABLE `db_faculdadefinal`.`docente` (
     REFERENCES `db_faculdadefinal`.`endereco` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
+     */
 }

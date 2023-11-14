@@ -1,6 +1,8 @@
 package modelo;
 
 public class Endereco {
+
+    protected Integer id;
     protected String cidade;
     protected String rua;
     protected String numero;
@@ -8,10 +10,19 @@ public class Endereco {
     public Endereco() {
     }
 
-    public Endereco(String cidade, String rua, String numero) {
+    public Endereco(Integer id, String cidade, String rua, String numero) {
+        this.id = id;
         this.cidade = cidade;
         this.rua = rua;
         this.numero = numero;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getCidade() {
@@ -40,10 +51,10 @@ public class Endereco {
 
     @Override
     public String toString() {
-        return "Endereco{" +
-                "cidade='" + cidade + '\'' +
-                ", rua='" + rua + '\'' +
-                ", numero='" + numero + '\'' +
-                '}';
+        return "Endereco{"
+                + "cidade='" + cidade + '\''
+                + ", rua='" + rua + '\''
+                + ", numero='" + numero + '\''
+                + '}';
     }
 }
