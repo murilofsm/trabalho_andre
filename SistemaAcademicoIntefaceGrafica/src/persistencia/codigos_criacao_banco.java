@@ -11,8 +11,10 @@ package persistencia;
  */
 public class codigos_criacao_banco {
     /*
-    
-    CREATE DATABASE db_faculdadefinal;
+drop database db_faculdadefinal;
+
+
+CREATE DATABASE db_faculdadefinal;
 
 USE db_faculdadefinal;
 
@@ -63,9 +65,9 @@ CREATE TABLE `db_faculdadefinal`.`disciplina` (
   `cargahoraria` INT(12) NULL,
   `semestre` INT(12) NULL,
   `idcurso` INT(12) NULL,
-  PRIMARY KEY (`id`)
-  INDEX `fk_cursoDisciplina_idx` (`idcurso` ASC) VISIBLE,
-  CONSTRAINT `fk_cursoDisciplina`
+  PRIMARY KEY (`id`),
+  INDEX `fk_cursodisciplina_idx` (`idcurso` ASC) VISIBLE,
+  CONSTRAINT `fk_cursodisciplina`
     FOREIGN KEY (`idcurso`)
     REFERENCES `db_faculdadefinal`.`curso` (`id`)
     ON DELETE NO ACTION
@@ -84,8 +86,8 @@ CREATE TABLE `db_faculdadefinal`.`funcionario` (
   `salario` INT(8) NULL,
   `idendereco` INT(8) NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_enderecoDocente_idx` (`idendereco` ASC) VISIBLE,
-  CONSTRAINT `fk_enderecoDocente`
+  INDEX `fk_enderecofuncionario_idx` (`idendereco` ASC) VISIBLE,
+  CONSTRAINT `fk_enderecofuncionario`
     FOREIGN KEY (`idendereco`)
     REFERENCES `db_faculdadefinal`.`endereco` (`id`)
     ON DELETE NO ACTION
@@ -103,11 +105,10 @@ CREATE TABLE `db_faculdadefinal`.`docente` (
   `salario` INT(8) NULL,
   `idendereco` INT(8) NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_enderecoDocente_idx` (`idendereco` ASC) VISIBLE,
-  CONSTRAINT `fk_enderecoDocente`
+  INDEX `fk_enderecodocente_idx` (`idendereco` ASC) VISIBLE,
+  CONSTRAINT `fk_enderecodocente`
     FOREIGN KEY (`idendereco`)
     REFERENCES `db_faculdadefinal`.`endereco` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-    */
 }
