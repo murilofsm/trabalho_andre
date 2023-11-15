@@ -160,9 +160,9 @@ public class DaoFuncionario<T> extends DAO {
         return fun;
     }
 
-    public List<T> localizarTodosFuncionariosBanco() {
+    public List<Funcionario> localizarTodosFuncionariosBanco() {
 
-        List<T> result = new ArrayList<>();
+        List<Funcionario> result = new ArrayList<>();
 
         try {
             String sql = """
@@ -190,7 +190,7 @@ public class DaoFuncionario<T> extends DAO {
                                 rs.getString("numero")
                         )
                 );
-                result.add((T) funcionario);
+                result.add(funcionario);
             }
 
             rs.close();

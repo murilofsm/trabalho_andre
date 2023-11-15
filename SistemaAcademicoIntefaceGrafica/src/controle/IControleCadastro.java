@@ -13,7 +13,7 @@ import java.util.HashMap;
 public interface IControleCadastro {
     
     public String[] gerarColunasTabela();
-    public String[][] gerarDadosTabela(int qtdColunas);
+    public String[][] gerarDadosTabela(int qtdColunas, IControleCadastro controle);
     public void atualizarTabelaTelaListagem();
     public void abrirTelaListagem();
     public void abrirTelaCadastro();

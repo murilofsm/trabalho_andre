@@ -69,10 +69,19 @@ public abstract class ControleCadastroGenerico<T> implements IControleCadastro {
     }
 
     @Override
-    public String[][] gerarDadosTabela(int qtdColunas) {
+    public String[][] gerarDadosTabela(int qtdColunas, IControleCadastro controle) {
 
         List<T> lista = new ArrayList<>();
-        lista.addAll(daoFuncionario.localizarTodosFuncionariosBanco()); // adicionar todos os dados
+
+        if (controle instanceof ControleAluno) {
+        } else if (controle instanceof ControleFuncionario) {
+            if (controle instanceof ControleDocente) {
+
+            } else {
+                lista.addAll(daoFuncionario.localizarTodosFuncionariosBanco()); // adicionar todos os dados
+            }
+        } else if (controle instanceof ControleCurso) {
+        }
 
         String[][] dados = new String[lista.size()][qtdColunas];
 

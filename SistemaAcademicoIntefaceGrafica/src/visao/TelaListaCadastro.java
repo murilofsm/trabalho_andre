@@ -43,7 +43,7 @@ public class TelaListaCadastro extends javax.swing.JFrame {
 
     private void gerarTabela() {
         String[] colunas = controle.gerarColunasTabela();
-        String[][] dados = controle.gerarDadosTabela(colunas.length);
+        String[][] dados = controle.gerarDadosTabela(colunas.length, controle);
 
         DefaultTableModel model = new DefaultTableModel(
                 dados,
