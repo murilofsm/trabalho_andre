@@ -6,6 +6,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 import modelo.Funcionario;
+import persistencia.DaoFuncionario;
 import util.NumberUtils;
 import visao.TelaCadastroPessoa;
 
@@ -15,11 +16,13 @@ import visao.TelaCadastroPessoa;
  */
 public class ControleFuncionario extends ControlePessoa<Funcionario> {
 
+    private static DaoFuncionario daoFuncionario = new DaoFuncionario();
+
     public ControleFuncionario() {
         super(Funcionario.class);
         setTelaCadastro(new TelaCadastroPessoa(this));
     }
-    
+
     public ControleFuncionario(Class classeModelo) {
         super(classeModelo);
     }
@@ -31,7 +34,7 @@ public class ControleFuncionario extends ControlePessoa<Funcionario> {
             func.setSalario(NumberUtils.parseFloat((String) dados.getOrDefault("salario", 0)));
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Falha ao Setar Dados do Funcionário!\n"+e.getMessage(), "Falha ao Setar Dados", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Falha ao Setar Dados do Funcionário!\n" + e.getMessage(), "Falha ao Setar Dados", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -39,7 +42,7 @@ public class ControleFuncionario extends ControlePessoa<Funcionario> {
         HashMap<String, Object> dados = super.getDadosObjeto(func);
         dados.put("ctps", func.getCtps());
         dados.put("salario", func.getSalario());
-        
+
         return dados;
     }
 
@@ -67,7 +70,9 @@ public class ControleFuncionario extends ControlePessoa<Funcionario> {
     public void salvar(HashMap<String, Object> dados) {
         Funcionario funcionario = new Funcionario();
         setarDadosObjeto(funcionario, dados);
-        registros.add(funcionario);
+        //        registros.add(funcionario);
+        daoFuncionario.inserirFuncionarioBanco(funcionario);
+    
     }
 
 }

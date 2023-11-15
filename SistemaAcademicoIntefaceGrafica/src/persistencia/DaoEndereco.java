@@ -9,100 +9,92 @@ import modelo.Endereco;
 
 public class DaoEndereco extends DAO {
 
-    public ArrayList<Endereco> buscarEnderecosBanco() {
-        ArrayList<Endereco> enderecos = new ArrayList<>();
+    public int inserirEnderecoBanco(Endereco e) {
+        Connection con = getConexao();
+
+        Integer idEndereco = 0;
         try {
             String sql = """
-                         SELECT * FROM endereco;
-                         """;
-            ResultSet rs = consultaSQL(sql);
-            while (rs.next()) {
-                Endereco end = new Endereco();
-                end.setId(rs.getInt("id"));
-                end.setCidade(rs.getString("cidade"));
-                end.setRua(rs.getString("rua"));
-                end.setNumero(rs.getString("numero"));
-
-                enderecos.add(end);
-            }
-        } catch (SQLException ex) {
-            System.out.println("Falha ao carregar endereços!\n" + ex.getMessage());
-        }
-        return enderecos;
-    }
-
-    public Endereco buscarEnderecosPorIDBanco(int idEndereco) {
-        Endereco end = null;
-        try {
-            String sql = "SELECT * from ENDERECO where id = " + idEndereco;
-            ResultSet rs = consultaSQL(sql);
-            if (rs.next()) {
-                end = new Endereco();
-                end.setId(rs.getInt("idendereco"));
-                end.setCidade(rs.getString("cidade"));
-                end.setRua(rs.getString("rua"));
-                end.setNumero(rs.getString("numero"));
-            }
-        } catch (SQLException ex) {
-            System.out.println("Falha ao carregar endereço!\n" + ex.getMessage());
-        }
-        return end;
-    }
-
-    public boolean salvarEnderecoBanco(Endereco end) {
-        try {
-            String sql = """
-                         INSERT INTO public.endereco(
-                          id, cidade, rua, numero )
-                          VALUES (?, ?, ?, ?);
+                         INSERT into endereco(cidade, rua, numero) VALUES(?, ?, ?);
                          """;
 
-            PreparedStatement ps = criarPreparedStatement(sql);
-            ps.setInt(1, end.getId());
-            ps.setString(2, end.getCidade());
-            ps.setString(3, end.getRua());
-            ps.setString(4, end.getNumero());
+            PreparedStatement stmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
-            ps.executeUpdate();
-            return true;
+            stmt.setString(1, e.getCidade());
+            stmt.setString(2, e.getRua());
+            stmt.setString(3, e.getNumero());
+
+            int linhasAfetadas = stmt.executeUpdate();
+
+            if (linhasAfetadas > 0) {
+
+                System.out.println("Endereco inserido com sucesso!! ");
+
+                ResultSet generateKeys = stmt.getGeneratedKeys();
+
+                while (generateKeys.next()) {
+                    idEndereco = generateKeys.getInt(1);
+                }
+            }
+
+            stmt.close();
+
         } catch (SQLException ex) {
-            System.out.println("Falha ao salvar endereço\n" + ex.getMessage());
-            return false;
+            System.out.println("Ocorreu um erro no inserirEnderecoBanco():" + ex.getMessage());
         }
+
+        return idEndereco;
     }
 
-    public boolean atualizarEnderecoBanco(Endereco end) {
+    public void removerEnderecoBanco(Endereco e) {
         try {
             String sql = """
-                         UPDATE public.endereco
-                          SET cidade = ?, rua = ?, numero = ?
-                          WHERE idendereco =""" + end.getId();
+                         DELETE FROM endereco
+                         WHERE id = ?;
+                         """;
 
-            PreparedStatement ps = criarPreparedStatement(sql);
-            ps.setString(1, end.getCidade());
-            ps.setString(2, end.getRua());
-            ps.setString(3, end.getNumero());
+            PreparedStatement stmt = criarPreparedStatement(sql);
 
-            ps.executeUpdate();
-            return true;
+            stmt.setInt(1, e.getId());
+
+            int linhasAfetadas = stmt.executeUpdate();
+
+            if (linhasAfetadas > 0) {
+                System.out.println("Endereco removido com sucesso!! ");
+            }
+
+            stmt.close();
+
         } catch (SQLException ex) {
-            System.out.println("Falha ao editar endereço\n" + ex.getMessage());
-            return false;
+            System.out.println("Ocorreu um erro no inserirEnderecoBanco():" + ex.getMessage());
         }
     }
 
-    public String removerEnderecoBanco(Endereco end) {
-        return "DELETE FROM public.endereco WHERE id = " + end.getId();
-    }
-
-    public boolean remover(Endereco end) {
+    public void atualizarEnderecoBanco(Endereco e) {
         try {
-            executeSql(removerEnderecoBanco(end));
-            return true;
-        } catch (SQLException e) {
-            System.out.println("Falha ao remover endereço\n" + e.getMessage());
-            return false;
+            String sql = """
+                         UPDATE endereco
+                         SET cidade = ?, rua = ?, numero = ?
+                         WHERE id = ?;
+                         """;
+
+            PreparedStatement stmt = criarPreparedStatement(sql);
+
+            stmt.setString(1, e.getCidade());
+            stmt.setString(2, e.getRua());
+            stmt.setString(3, e.getNumero());
+            stmt.setInt(4, e.getId());
+
+            int linhasAfetadas = stmt.executeUpdate();
+
+            if (linhasAfetadas > 0) {
+                System.out.println("Endereco atualizado com sucesso!! ");
+            }
+
+            stmt.close();
+
+        } catch (SQLException ex) {
+            System.out.println("Ocorreu um erro no inserirEnderecoBanco():" + ex.getMessage());
         }
     }
-
 }

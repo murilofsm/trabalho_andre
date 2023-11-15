@@ -1,13 +1,12 @@
 package controle;
 
-
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import modelo.*;
+import persistencia.DaoFuncionario;
 import util.DialogBoxUtils;
 import visao.TelaCadastro;
 import visao.TelaListaCadastro;
@@ -24,11 +23,12 @@ public abstract class ControleCadastroGenerico<T> implements IControleCadastro {
     protected TelaListaCadastro telaListaCadastro;
     protected List<T> registros = new ArrayList<>();
     protected T registroSelecionado;
+    private DaoFuncionario daoFuncionario = new DaoFuncionario();
 
     public ControleCadastroGenerico(Class classeModelo) {
-        this.classeModelo = classeModelo;    
+        this.classeModelo = classeModelo;
     }
-    
+
     public ControleCadastroGenerico(Class classeModelo, TelaCadastro telaCadastro) {
         this.classeModelo = classeModelo;
         this.telaCadastro = telaCadastro;
@@ -41,12 +41,12 @@ public abstract class ControleCadastroGenerico<T> implements IControleCadastro {
     public void setTelaCadastro(TelaCadastro telaCadastro) {
         this.telaCadastro = telaCadastro;
     }
-    
+
     public TelaListaCadastro getTelaListaCadastro() {
         return telaListaCadastro;
     }
 
-    public List<T> getRegistros() {
+    public List<T> getRegistros() {        
         return registros;
     }
 
@@ -55,7 +55,7 @@ public abstract class ControleCadastroGenerico<T> implements IControleCadastro {
     }
 
     @Override
-    public String[] gerarColunasTabela() {  
+    public String[] gerarColunasTabela() {
         if (classeModelo.equals(Aluno.class)) {
             return new String[]{"Nome", "CPF", "E-mail", "Curso"};
         } else if (classeModelo.getSuperclass() == Pessoa.class || classeModelo.equals(Docente.class) || classeModelo.equals(Funcionario.class)) {
@@ -70,10 +70,15 @@ public abstract class ControleCadastroGenerico<T> implements IControleCadastro {
 
     @Override
     public String[][] gerarDadosTabela(int qtdColunas) {
-        String[][] dados = new String[registros.size()][qtdColunas];
+
+        List<T> lista = new ArrayList<>();
+        lista.addAll(daoFuncionario.localizarTodosFuncionariosBanco());
+        
+        String[][] dados = new String[lista.size()][qtdColunas];
 
         int linha = 0;
-        for (T reg : registros) {
+
+        for (T reg : lista) {
             dados[linha] = getDadosEntidadeModeloParaTabela(reg);
             linha++;
         }
@@ -97,22 +102,21 @@ public abstract class ControleCadastroGenerico<T> implements IControleCadastro {
             return new String[10];
         }
     }
-    
-    public List<String> getDescricaoRegistros(){
-        if(classeModelo.isAnnotationPresent(IDescricao.class)){
-            return registros.stream().map(x ->((IDescricao) x).getDescricao()).collect(Collectors.toList()); 
+
+    public List<String> getDescricaoRegistros() {
+        if (classeModelo.isAnnotationPresent(IDescricao.class)) {
+            return registros.stream().map(x -> ((IDescricao) x).getDescricao()).collect(Collectors.toList());
+        } else {
+            return registros.stream().map(x -> x.toString()).collect(Collectors.toList());
         }
-        else{
-            return registros.stream().map(x -> x.toString()).collect(Collectors.toList()); 
-        }
-        
+
     }
 
     @Override
-    public void atualizarTabelaTelaListagem(){
+    public void atualizarTabelaTelaListagem() {
         telaListaCadastro.atualizarTabela();
     }
-    
+
     @Override
     public void abrirTelaListagem() {
         telaListaCadastro = new TelaListaCadastro(this);
@@ -139,10 +143,10 @@ public abstract class ControleCadastroGenerico<T> implements IControleCadastro {
             return false;
         }
     }
-    
+
     @Override
     public abstract void editar(HashMap<String, Object> dados);
-    
+
     @Override
     public abstract void salvar(HashMap<String, Object> dados);
 }

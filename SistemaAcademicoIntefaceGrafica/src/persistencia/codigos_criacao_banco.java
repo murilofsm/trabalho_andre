@@ -10,7 +10,7 @@ package persistencia;
  */
 public class codigos_criacao_banco {
     /*
-  drop database db_faculdadefinal;
+DROP DATABASE db_faculdadefinal;
 
 
 CREATE DATABASE db_faculdadefinal;
@@ -82,7 +82,7 @@ CREATE TABLE `db_faculdadefinal`.`funcionario` (
   `genero` VARCHAR(45) NULL,
   `datanascimento` DATE NULL,
   `ctps` VARCHAR(45) NULL,
-  `salario` INT(8) NULL,
+  `salario` DOUBLE NULL,
   `idendereco` INT(8) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_enderecofuncionario_idx` (`idendereco` ASC) VISIBLE,
@@ -101,7 +101,7 @@ CREATE TABLE `db_faculdadefinal`.`docente` (
   `datanascimento` DATE NULL,
   `ctps` VARCHAR(45) NULL,
   `formacao` VARCHAR(45) NULL,
-  `salario` INT(8) NULL,
+  `salario` DOUBLE NULL,
   `idendereco` INT(8) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_enderecodocente_idx` (`idendereco` ASC) VISIBLE,

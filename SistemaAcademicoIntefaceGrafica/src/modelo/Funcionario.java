@@ -2,14 +2,15 @@ package modelo;
 
 import java.time.LocalDate;
 
-public class Funcionario extends Pessoa{
+public class Funcionario extends Pessoa {
+
     protected String ctps;
     protected double salario;
 
     public Funcionario() {
     }
 
-    public Funcionario(String ctps, double salario, Integer id, String nome, String cpf, String email, String genero, LocalDate dataNascimento, Endereco endereco) {
+    public Funcionario(Integer id, String nome, String cpf, String email, String genero, LocalDate dataNascimento, String ctps, double salario, Endereco endereco) {
         super(id, nome, cpf, email, genero, dataNascimento, endereco);
         this.ctps = ctps;
         this.salario = salario;
@@ -32,10 +33,18 @@ public class Funcionario extends Pessoa{
     }
 
     @Override
-    public void exibirInformacoes(){
-        System.out.println( nome + " | Cpf: " + cpf + " | Idade: " + calcularIdade() + " anos " +
-                " | Cidade: "+ endereco.getCidade() + " | Rua : " + endereco.getRua() + " | Número: " + endereco.getNumero() + " | "
+    public void exibirInformacoes() {
+        System.out.println(nome + " | Cpf: " + cpf + " | Idade: " + calcularIdade() + " anos "
+                + " | Cidade: " + endereco.getCidade() + " | Rua : " + endereco.getRua() + " | Número: " + endereco.getNumero() + " | "
                 + "Ctps: " + ctps + " |  Salario: " + salario
         );
+
+    }
+
+    @Override
+    public String toString() {
+        return nome + " | Cpf: " + cpf + " | Idade: " + calcularIdade() + " anos "
+                + " | Cidade: " + endereco.getCidade() + " | Rua : " + endereco.getRua() + " | Número: " + endereco.getNumero() + " | "
+                + "Ctps: " + ctps + " |  Salario: " + salario;
     }
 }
