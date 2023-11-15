@@ -1,6 +1,8 @@
 package modelo;
 
 public class Curso implements IDescricao{
+    
+    protected int id;
     protected String nome;
     protected int cargaHoraria;
     protected int qtdSemestres;
@@ -12,12 +14,23 @@ public class Curso implements IDescricao{
     public Curso() {
     }
 
-    public Curso(String nome, int cargaHoraria, int qtdSemestres, Docente coordenador) {
+    public Curso(int id, String nome, int cargaHoraria, int qtdSemestres, Docente coordenador, int qtdAlunosCurso) {
+        this.id = id;
         this.nome = nome;
         this.cargaHoraria = cargaHoraria;
         this.qtdSemestres = qtdSemestres;
         this.coordenador = coordenador;
+        this.qtdAlunosCurso = qtdAlunosCurso;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
 
     public String getNome() {
         return nome;
@@ -62,6 +75,13 @@ public class Curso implements IDescricao{
     public void exibirInformacoes(){
         System.out.println("Curso: " + nome + " | Carga horária: " + cargaHoraria + " | Quantidade semestre: " + qtdSemestres + " | Coordenador: " + coordenador.getNome() + " | Quantidade alunos: " + qtdAlunosCurso);
     }
+
+    @Override
+    public String toString() {
+        return "Curso{" + "id=" + id + ", nome=" + nome + ", cargaHoraria=" + cargaHoraria + ", qtdSemestres=" + qtdSemestres + ", coordenador=" + coordenador + ", qtdAlunosCurso=" + qtdAlunosCurso + '}';
+    }
+    
+    
     
     @Override
     /**

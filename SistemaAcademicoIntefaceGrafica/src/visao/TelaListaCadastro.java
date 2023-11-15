@@ -5,8 +5,8 @@ import controle.ControleCurso;
 import controle.ControleDocente;
 import controle.ControleFuncionario;
 import controle.IControleCadastro;
+import java.util.HashMap;
 import javax.swing.table.DefaultTableModel;
-
 
 /**
  *
@@ -15,8 +15,10 @@ import javax.swing.table.DefaultTableModel;
 public class TelaListaCadastro extends javax.swing.JFrame {
 
     private final IControleCadastro controle;
+
     /**
      * Creates new form ListaAlunos
+     *
      * @param controle
      */
     public TelaListaCadastro(IControleCadastro controle) {
@@ -26,17 +28,17 @@ public class TelaListaCadastro extends javax.swing.JFrame {
         inicializarComponentesTela();
         gerarTabela();
     }
-    
+
     private void inicializarComponentesTela() {
         if (controle instanceof ControleAluno) {
             super.setTitle("Lista de Alunos");
-        }else if(controle instanceof ControleFuncionario){
+        } else if (controle instanceof ControleFuncionario) {
             super.setTitle("Lista de Funcionários");
-        }else if(controle instanceof ControleDocente){
+        } else if (controle instanceof ControleDocente) {
             super.setTitle("Lista de Docentes");
-        }else if(controle instanceof ControleCurso){
+        } else if (controle instanceof ControleCurso) {
             super.setTitle("Lista de Cursos");
-        }            
+        }
     }
 
     private void gerarTabela() {
@@ -58,12 +60,10 @@ public class TelaListaCadastro extends javax.swing.JFrame {
         jTabela.setDefaultEditor(Object.class, null);
 
     }
-    
-    public void atualizarTabela(){
+
+    public void atualizarTabela() {
         gerarTabela();
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -174,16 +174,20 @@ public class TelaListaCadastro extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaMouseClicked
-        if (evt.getClickCount() > 1 && jTabela.getSelectedRow()>=0) {
+        if (evt.getClickCount() > 1 && jTabela.getSelectedRow() >= 0) {
             int linha = jTabela.getSelectedRow() + 1;
             controle.abrirTelaCadastroParaEdicao(linha);
         }
     }//GEN-LAST:event_jTabelaMouseClicked
 
     private void jB_EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_EditarActionPerformed
-        int linha = jTabela.getSelectedRow() + 1;
-        if(linha>=0){
-            controle.abrirTelaCadastroParaEdicao(linha);
+        int linha = jTabela.getSelectedRow();
+
+        if (linha >= 0) {
+
+            Object idSelecionado = jTabela.getValueAt(linha, 0);
+            controle.abrirTelaCadastroParaEdicao(Integer.parseInt(idSelecionado.toString()));
+
         }
     }//GEN-LAST:event_jB_EditarActionPerformed
 
@@ -194,14 +198,20 @@ public class TelaListaCadastro extends javax.swing.JFrame {
     }//GEN-LAST:event_jB_AdicionarActionPerformed
 
     private void jB_RemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_RemoverActionPerformed
-        int posicao = jTabela.getSelectedRow();
-        if(posicao >= 0 && controle.removerCadastro(posicao)){
-            DefaultTableModel model = (DefaultTableModel) jTabela.getModel();
-            model.removeRow(posicao);
+        int linha = jTabela.getSelectedRow();
+
+        if (linha >= 0) {
+            Object idSelecionado = jTabela.getValueAt(linha, 0);
+            int idRemover = Integer.parseInt(idSelecionado.toString());
+
+            if (controle.removerCadastro(idRemover)) {
+                DefaultTableModel model = (DefaultTableModel) jTabela.getModel();
+                model.removeRow(linha);
+            }
+
         }
     }//GEN-LAST:event_jB_RemoverActionPerformed
 
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jB_Adicionar;

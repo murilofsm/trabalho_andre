@@ -75,6 +75,11 @@ public class ControleAluno extends ControlePessoa<Aluno> {
         setarDadosObjeto(al, dados);
         registros.add(al);
     }
+
+    @Override
+    public boolean removerCadastro(int index) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
    
 }

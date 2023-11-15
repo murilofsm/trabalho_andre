@@ -63,6 +63,7 @@ public class ControleFuncionario extends ControlePessoa<Funcionario> {
     public void editar(HashMap<String, Object> dados) {
         if (registroSelecionado != null) {
             setarDadosObjeto(registroSelecionado, dados);
+            daoFuncionario.editarFuncionarioBanco((Funcionario) registroSelecionado);
         }
     }
 
@@ -73,6 +74,14 @@ public class ControleFuncionario extends ControlePessoa<Funcionario> {
         //        registros.add(funcionario);
         daoFuncionario.inserirFuncionarioBanco(funcionario);
     
+    }
+    
+    @Override
+    public boolean removerCadastro(int index){
+       if( daoFuncionario.removerFuncionarioBanco(index)){
+           return true;
+       };
+        return false;
     }
 
 }

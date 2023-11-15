@@ -43,12 +43,74 @@ public class DaoFuncionario<T> extends DAO {
             int linhasAfetadas = stmt.executeUpdate();
 
             if (linhasAfetadas > 0) {
-                System.out.println("Funcionaro cadastrado com sucesso!! ");
+                System.out.println("Funcionario cadastrado com sucesso!! ");
             }
             stmt.close();
 
         } catch (SQLException ex) {
             System.out.println("Erro no inserirFuncionarioBanco()\n" + ex.getMessage());
+        }
+    }
+
+    public void editarFuncionarioBanco(Funcionario fun) {
+        try {
+            String sql = """
+                            UPDATE funcionario f
+                            INNER JOIN endereco e on f.idendereco = e.id
+                            SET f.nome = ?, f.cpf = ?, f.email = ?, f.genero = ?, f.datanascimento = ?, f.ctps = ?, f.salario = ?, e.cidade = ?, e.rua = ?, e.numero = ?
+                            WHERE f.id = ?;
+                         """;
+            PreparedStatement stmt = criarPreparedStatement(sql);
+
+            stmt.setString(1, fun.getNome());
+            stmt.setString(2, fun.getCpf());
+            stmt.setString(3, fun.getEmail());
+            stmt.setString(4, fun.getGenero());
+            stmt.setDate(5, ConverterUtils.localDateParaDate(fun.getDataNascimento()));
+            stmt.setString(6, fun.getCtps());
+            stmt.setDouble(7, fun.getSalario());
+            stmt.setString(8, fun.getEndereco().getCidade());
+            stmt.setString(9, fun.getEndereco().getRua());
+            stmt.setString(10, fun.getEndereco().getNumero());
+            stmt.setInt(11, fun.getId());
+
+            int linhasAfetadas = stmt.executeUpdate();
+
+            if (linhasAfetadas > 0) {
+                System.out.println("Funcionario editado com sucesso!! ");
+            }
+            stmt.close();
+
+        } catch (SQLException ex) {
+            System.out.println("Erro no inserirFuncionarioBanco()\n" + ex.getMessage());
+        }
+    }
+    
+    
+    
+
+    public boolean removerFuncionarioBanco(int idFuncionario) {
+        try {
+            String sql = """
+                         DELETE f, e
+                         FROM funcionario f
+                         INNER JOIN endereco e on f.idendereco = e.id
+                         WHERE f.id = ? and f.idendereco = e.id;                      
+                         """;
+            PreparedStatement stmt = criarPreparedStatement(sql);
+            
+            stmt.setInt(1, idFuncionario);
+         
+            int linhasAfetadas = stmt.executeUpdate();
+
+            if (linhasAfetadas > 0) {
+                System.out.println("Funcionaro removido com sucesso!! ");
+            }
+            stmt.close();
+            return true;
+        } catch (SQLException ex) {
+            System.out.println("Erro no removerFuncionarioBanco()\n" + ex.getMessage());
+            return false;
         }
     }
 

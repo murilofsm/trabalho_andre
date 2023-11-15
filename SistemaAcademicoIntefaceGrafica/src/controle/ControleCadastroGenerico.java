@@ -46,7 +46,7 @@ public abstract class ControleCadastroGenerico<T> implements IControleCadastro {
         return telaListaCadastro;
     }
 
-    public List<T> getRegistros() {        
+    public List<T> getRegistros() {
         return registros;
     }
 
@@ -57,11 +57,11 @@ public abstract class ControleCadastroGenerico<T> implements IControleCadastro {
     @Override
     public String[] gerarColunasTabela() {
         if (classeModelo.equals(Aluno.class)) {
-            return new String[]{"Nome", "CPF", "E-mail", "Curso"};
+            return new String[]{"ID", "Nome", "CPF", "E-mail", "Curso"};
         } else if (classeModelo.getSuperclass() == Pessoa.class || classeModelo.equals(Docente.class) || classeModelo.equals(Funcionario.class)) {
-            return new String[]{"Nome", "CPF", "E-mail"};
+            return new String[]{"ID", "Nome", "CPF", "E-mail"};
         } else if (classeModelo.equals(Curso.class)) {
-            return new String[]{"Curso", "Semestres"};
+            return new String[]{"ID", "Curso", "Semestres"};
         } else {
             DialogBoxUtils.exibirMensagemDeErro("Erro", "Erro ao gerar colunas para Tabela");
             return null;
@@ -72,8 +72,8 @@ public abstract class ControleCadastroGenerico<T> implements IControleCadastro {
     public String[][] gerarDadosTabela(int qtdColunas) {
 
         List<T> lista = new ArrayList<>();
-        lista.addAll(daoFuncionario.localizarTodosFuncionariosBanco());
-        
+        lista.addAll(daoFuncionario.localizarTodosFuncionariosBanco()); // adicionar todos os dados
+
         String[][] dados = new String[lista.size()][qtdColunas];
 
         int linha = 0;
@@ -90,13 +90,13 @@ public abstract class ControleCadastroGenerico<T> implements IControleCadastro {
 
         if (entidade instanceof Aluno) {
             Aluno al = (Aluno) entidade;
-            return new String[]{al.getNome(), al.getCpf(), al.getEmail(), al.getCurso() != null ? al.getCurso().getNome() : ""};
+            return new String[]{"" + al.getId(), al.getNome(), al.getCpf(), al.getEmail(), al.getCurso() != null ? al.getCurso().getNome() : ""};
         } else if (entidade.getClass().getSuperclass() == Pessoa.class || entidade instanceof Docente || entidade instanceof Funcionario) {
             Pessoa p = (Pessoa) entidade;
-            return new String[]{p.getNome(), p.getCpf(), p.getEmail()};
+            return new String[]{"" + p.getId(), p.getNome(), p.getCpf(), p.getEmail()};
         } else if (entidade instanceof Curso) {
             Curso cur = (Curso) entidade;
-            return new String[]{cur.getNome(), "" + cur.getQtdSemestres()};
+            return new String[]{"" + cur.getId(), cur.getNome(), "" + cur.getQtdSemestres()};
         } else {
             DialogBoxUtils.exibirMensagemDeErro("Erro", "Erro ao gerar Dados para Tabela");
             return new String[10];
@@ -134,15 +134,7 @@ public abstract class ControleCadastroGenerico<T> implements IControleCadastro {
     public abstract void abrirTelaCadastroParaEdicao(int index);
 
     @Override
-    public boolean removerCadastro(int index) {
-        try {
-            registros.remove(index);
-            return true;
-        } catch (Exception e) {
-            DialogBoxUtils.exibirMensagemDeErro("Falha ao Remover Cadastro", "Falha ao Remover Cadastro\n" + e.getMessage());
-            return false;
-        }
-    }
+    public abstract boolean removerCadastro(int index);
 
     @Override
     public abstract void editar(HashMap<String, Object> dados);

@@ -86,4 +86,9 @@ public class ControleCurso extends ControleCadastroGenerico<Curso>{
         setarDadosObjeto(curso, dados);
         registros.add(curso);
     }
+
+    @Override
+    public boolean removerCadastro(int index) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
