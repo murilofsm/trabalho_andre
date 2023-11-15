@@ -8,7 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
 import modelo.Aluno;
 import modelo.Endereco;
@@ -53,6 +52,52 @@ public class DaoFuncionario<T> extends DAO {
         }
     }
 
+    public Funcionario localizarFuncionarioUnicoBanco(int idFuncionario) {
+
+        Funcionario fun = new Funcionario();
+
+        try {
+            String sql = """
+                         
+                        SELECT f.id, f.nome, f.cpf, f.email, f.genero, f.datanascimento, f.ctps, f.salario, f.idendereco, e.cidade, e.rua, e.numero
+                        FROM funcionario f
+                        INNER JOIN endereco e on f.idendereco = e.id
+                        WHERE f.id = ?;
+                         
+                         """;
+
+            PreparedStatement stmt = criarPreparedStatement(sql);
+
+            stmt.setInt(1, idFuncionario);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                fun.setId(rs.getInt("id"));
+                fun.setNome(rs.getString("nome"));
+                fun.setCpf(rs.getString("cpf"));
+
+                fun.setEmail(rs.getString("email"));
+                fun.setGenero(rs.getString("genero"));
+                fun.setDataNascimento(rs.getDate("datanascimento").toLocalDate());
+                fun.setCtps(rs.getString("ctps"));
+                fun.setSalario(rs.getDouble("salario"));
+                fun.setEndereco(new Endereco(
+                        rs.getInt("idendereco"),
+                        rs.getString("cidade"),
+                        rs.getString("rua"),
+                        rs.getString("numero"))
+                );
+            }
+
+            rs.close();
+
+        } catch (SQLException ex) {
+            System.out.println("Erro no localizarFuncionarioUnicoBanco()\n" + ex.getMessage());
+        }
+        return fun;
+    }
+
     public List<T> localizarTodosFuncionariosBanco() {
 
         List<T> result = new ArrayList<>();
@@ -85,13 +130,13 @@ public class DaoFuncionario<T> extends DAO {
                 );
                 result.add((T) funcionario);
             }
-            
+
             rs.close();
 
         } catch (SQLException ex) {
             System.out.println("Erro no localizarTodosFuncionariosBanco()\n" + ex.getMessage());
         }
-        
+
         return result;
     }
 

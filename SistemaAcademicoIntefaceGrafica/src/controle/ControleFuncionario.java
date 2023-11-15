@@ -48,7 +48,7 @@ public class ControleFuncionario extends ControlePessoa<Funcionario> {
 
     @Override
     public void abrirTelaCadastroParaEdicao(int index) {
-        registroSelecionado = registros.get(index);
+        registroSelecionado = daoFuncionario.localizarFuncionarioUnicoBanco(index);
         if (registroSelecionado == null) {
             JOptionPane.showMessageDialog(null, "Falha ao Editar \nRegistro não encontrado!", "Falha ao Editar", JOptionPane.ERROR_MESSAGE);
             return;

@@ -175,13 +175,13 @@ public class TelaListaCadastro extends javax.swing.JFrame {
 
     private void jTabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabelaMouseClicked
         if (evt.getClickCount() > 1 && jTabela.getSelectedRow()>=0) {
-            int linha = jTabela.getSelectedRow();
+            int linha = jTabela.getSelectedRow() + 1;
             controle.abrirTelaCadastroParaEdicao(linha);
         }
     }//GEN-LAST:event_jTabelaMouseClicked
 
     private void jB_EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_EditarActionPerformed
-        int linha = jTabela.getSelectedRow();
+        int linha = jTabela.getSelectedRow() + 1;
         if(linha>=0){
             controle.abrirTelaCadastroParaEdicao(linha);
         }
