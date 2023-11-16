@@ -6,28 +6,30 @@ import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import modelo.Curso;
 import modelo.Docente;
+import persistencia.DaoCurso;
 import visao.TelaCadastroCurso;
 
 /**
  *
  * @author Andre
  */
-public class ControleCurso extends ControleCadastroGenerico<Curso>{
+public class ControleCurso extends ControleCadastroGenerico<Curso> {
     
     private ControleDocente controleDocente;
+    private DaoCurso daoCurso = new DaoCurso();
     
     public ControleCurso(ControleDocente controleDocente) {
         super(Curso.class);
         this.controleDocente = controleDocente;
         setTelaCadastro(new TelaCadastroCurso(this));
     }
-
+    
     public ControleDocente getControleDocente() {
         return controleDocente;
     }
     
-    public void setarDadosObjeto(Curso curso, HashMap<String, Object> dados){
-        if(curso == null){
+    public void setarDadosObjeto(Curso curso, HashMap<String, Object> dados) {
+        if (curso == null) {
             JOptionPane.showMessageDialog(null, "Falha ao Setar Dados!", "Falha ao Setar Dados", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -38,8 +40,8 @@ public class ControleCurso extends ControleCadastroGenerico<Curso>{
         curso.setCoordenador((Docente) dados.getOrDefault("coordenador", null));
     }
     
-    public HashMap<String, Object> gerarVetorDados(Curso curso){
-        HashMap<String, Object> dados = new HashMap<>();        
+    public HashMap<String, Object> gerarVetorDados(Curso curso) {
+        HashMap<String, Object> dados = new HashMap<>();
         dados.put("curso", curso.getNome());
         dados.put("cargahoraria", curso.getCargaHoraria());
         dados.put("semestres", curso.getQtdSemestres());
@@ -48,8 +50,8 @@ public class ControleCurso extends ControleCadastroGenerico<Curso>{
         return dados;
     }
     
-    public List<String> getNomesCursos(){
-        return registros.stream().map(x -> x.getNome()).collect(Collectors.toList()); 
+    public List<String> getNomesCursos() {
+        return registros.stream().map(x -> x.getNome()).collect(Collectors.toList());
     }
     
     public Curso getCursoSelecionado(int index) {
@@ -61,7 +63,7 @@ public class ControleCurso extends ControleCadastroGenerico<Curso>{
     
     @Override
     public void abrirTelaCadastroParaEdicao(int index) {
-        registroSelecionado = getCursoSelecionado(index);
+        registroSelecionado = daoCurso.localizarCursoUnicoBanco(index);
         if (registroSelecionado == null) {
             JOptionPane.showMessageDialog(null, "Falha ao Editar \nRegistro não encontrado!", "Falha ao Editar", JOptionPane.ERROR_MESSAGE);
             return;
@@ -72,23 +74,27 @@ public class ControleCurso extends ControleCadastroGenerico<Curso>{
         telaCadastro.setVisible(true);
     }
     
-    
     @Override
-    public void editar(HashMap<String, Object> dados){
-        if(registroSelecionado != null){
+    public void editar(HashMap<String, Object> dados) {
+        if (registroSelecionado != null) {
             setarDadosObjeto(registroSelecionado, dados);
+            daoCurso.editarCursoBanco((Curso) registroSelecionado);
         }
     }
-
+    
     @Override
     public void salvar(HashMap<String, Object> dados) {
         Curso curso = new Curso();
         setarDadosObjeto(curso, dados);
-        registros.add(curso);
+        //registros.add(curso);
+        daoCurso.inserirCursoBanco(curso);
     }
-
+    
     @Override
     public boolean removerCadastro(int index) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (daoCurso.removerCursoBanco(index)) {
+            return true;
+        };
+        return false;
     }
 }

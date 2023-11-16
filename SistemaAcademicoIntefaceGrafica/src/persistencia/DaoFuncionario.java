@@ -1,15 +1,10 @@
 package persistencia;
 
-import java.sql.SQLException;
-import controle.ControleAluno;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.List;
-import modelo.Aluno;
 import modelo.Endereco;
 import modelo.Funcionario;
 import util.ConverterUtils;

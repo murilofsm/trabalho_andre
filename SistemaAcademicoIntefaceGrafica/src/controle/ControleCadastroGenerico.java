@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import modelo.*;
+import persistencia.DaoCurso;
 import persistencia.DaoFuncionario;
 import util.DialogBoxUtils;
 import visao.TelaCadastro;
@@ -24,6 +25,7 @@ public abstract class ControleCadastroGenerico<T> implements IControleCadastro {
     protected List<T> registros = new ArrayList<>();
     protected T registroSelecionado;
     private DaoFuncionario daoFuncionario = new DaoFuncionario();
+    private DaoCurso daoCurso = new DaoCurso();
 
     public ControleCadastroGenerico(Class classeModelo) {
         this.classeModelo = classeModelo;
@@ -76,11 +78,12 @@ public abstract class ControleCadastroGenerico<T> implements IControleCadastro {
         if (controle instanceof ControleAluno) {
         } else if (controle instanceof ControleFuncionario) {
             if (controle instanceof ControleDocente) {
-
             } else {
                 lista.addAll(daoFuncionario.localizarTodosFuncionariosBanco()); // adicionar todos os dados
             }
         } else if (controle instanceof ControleCurso) {
+            lista.addAll(daoCurso.localizarTodosCursosBanco());
+
         }
 
         String[][] dados = new String[lista.size()][qtdColunas];

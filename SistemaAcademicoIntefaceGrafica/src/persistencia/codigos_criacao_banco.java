@@ -10,7 +10,7 @@ package persistencia;
  */
 public class codigos_criacao_banco {
     /*
-DROP DATABASE db_faculdadefinal;
+drop database db_faculdadefinal;
 
 
 CREATE DATABASE db_faculdadefinal;
@@ -23,13 +23,39 @@ CREATE TABLE `db_faculdadefinal`.`endereco` (
   `rua` VARCHAR(45) NULL,
   `numero` VARCHAR(45) NULL,
   PRIMARY KEY (`id`));
+ 
+ CREATE TABLE `db_faculdadefinal`.`docente` (
+  `id` INT(12) NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(45) NULL,
+  `cpf` VARCHAR(45) NULL,
+  `email` VARCHAR(45) NULL,
+  `genero` VARCHAR(45) NULL,
+  `datanascimento` DATE NULL,
+  `ctps` VARCHAR(45) NULL,
+  `formacao` VARCHAR(45) NULL,
+  `salario` DOUBLE NULL,
+  `idendereco` INT(8) NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_enderecodocente_idx` (`idendereco` ASC) VISIBLE,
+  CONSTRAINT `fk_enderecodocente`
+    FOREIGN KEY (`idendereco`)
+    REFERENCES `db_faculdadefinal`.`endereco` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
   
 CREATE TABLE `db_faculdadefinal`.`curso` (
   `id` INT(12) NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(45) NULL,
   `cargahoraria` INT(12) NULL,
-  `qtdsemestres` INT(12) NULL,
-  PRIMARY KEY (`id`));
+  `qtdsemestres` INT(12) null,
+  `idcoordenador` INT(12) NULL,
+  PRIMARY KEY (`id`),
+  index `fk_coordenadorcurso_idx` (`idcoordenador` ASC) VISIBLE,
+  constraint `fk_coordenadorcurso`
+     foreign key (`idcoordenador`)
+     references `db_faculdadefinal`.`docente` (`id`)
+     on delete no action
+     on update no ACTION);
   
   
   CREATE TABLE `db_faculdadefinal`.`aluno` (
@@ -92,23 +118,6 @@ CREATE TABLE `db_faculdadefinal`.`funcionario` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
     
-CREATE TABLE `db_faculdadefinal`.`docente` (
-  `id` INT(12) NOT NULL AUTO_INCREMENT,
-  `nome` VARCHAR(45) NULL,
-  `cpf` VARCHAR(45) NULL,
-  `email` VARCHAR(45) NULL,
-  `genero` VARCHAR(45) NULL,
-  `datanascimento` DATE NULL,
-  `ctps` VARCHAR(45) NULL,
-  `formacao` VARCHAR(45) NULL,
-  `salario` DOUBLE NULL,
-  `idendereco` INT(8) NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_enderecodocente_idx` (`idendereco` ASC) VISIBLE,
-  CONSTRAINT `fk_enderecodocente`
-    FOREIGN KEY (`idendereco`)
-    REFERENCES `db_faculdadefinal`.`endereco` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
+
      */
 }

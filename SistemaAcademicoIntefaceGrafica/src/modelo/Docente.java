@@ -4,16 +4,15 @@ import java.time.LocalDate;
 
 public class Docente extends Funcionario {
 
+    protected String formacao;
+
     public Docente() {
     }
 
-    public Docente(Integer id, String nome, String cpf, String email, String genero, LocalDate dataNascimento, String ctps, double salario, Endereco endereco) {
+    public Docente(Integer id, String nome, String cpf, String email, String genero, LocalDate dataNascimento, String ctps, String formacao, double salario, Endereco endereco) {
         super(id, nome, cpf, email, genero, dataNascimento, ctps, salario, endereco);
+        this.formacao = formacao;
     }
-
-   
-
-    protected String formacao;
 
     public String getFormacao() {
         return formacao;
