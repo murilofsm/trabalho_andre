@@ -121,7 +121,7 @@ public class DaoFuncionario<T> extends DAO {
                         INNER JOIN endereco e on f.idendereco = e.id
                         WHERE f.id = ?;
                          
-                         """;
+                        """;
 
             PreparedStatement stmt = criarPreparedStatement(sql);
 

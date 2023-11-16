@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import modelo.*;
 import persistencia.DaoCurso;
+import persistencia.DaoDocente;
 import persistencia.DaoFuncionario;
 import util.DialogBoxUtils;
 import visao.TelaCadastro;
@@ -25,6 +26,7 @@ public abstract class ControleCadastroGenerico<T> implements IControleCadastro {
     protected List<T> registros = new ArrayList<>();
     protected T registroSelecionado;
     private DaoFuncionario daoFuncionario = new DaoFuncionario();
+    private DaoDocente daoDocente = new DaoDocente();
     private DaoCurso daoCurso = new DaoCurso();
 
     public ControleCadastroGenerico(Class classeModelo) {
@@ -73,24 +75,27 @@ public abstract class ControleCadastroGenerico<T> implements IControleCadastro {
     @Override
     public String[][] gerarDadosTabela(int qtdColunas, IControleCadastro controle) {
 
-        List<T> lista = new ArrayList<>();
-
+        registros.clear();
         if (controle instanceof ControleAluno) {
+
         } else if (controle instanceof ControleFuncionario) {
             if (controle instanceof ControleDocente) {
+                registros.addAll(daoDocente.localizarTodosDocentesBanco());
             } else {
-                lista.addAll(daoFuncionario.localizarTodosFuncionariosBanco()); // adicionar todos os dados
+                registros.addAll(daoFuncionario.localizarTodosFuncionariosBanco()); // adicionar todos os dados
             }
         } else if (controle instanceof ControleCurso) {
-            lista.addAll(daoCurso.localizarTodosCursosBanco());
+            registros.addAll(daoDocente.localizarTodosDocentesBanco());
+
+            registros.addAll(daoCurso.localizarTodosCursosBanco());
 
         }
 
-        String[][] dados = new String[lista.size()][qtdColunas];
+        String[][] dados = new String[registros.size()][qtdColunas];
 
         int linha = 0;
 
-        for (T reg : lista) {
+        for (T reg : registros) {
             dados[linha] = getDadosEntidadeModeloParaTabela(reg);
             linha++;
         }

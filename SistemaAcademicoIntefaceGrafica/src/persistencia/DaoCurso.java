@@ -100,7 +100,7 @@ public class DaoCurso<T> extends DAO {
                          e.cidade, e.rua, e.numero 
                          FROM curso c
                          INNER JOIN docente d on c.idcoordenador = d.id
-                         inner join endereco e on d.idendereco = e.id
+                         INNER JOIN endereco e on d.idendereco = e.id
                          WHERE c.id = ?;
                          
                          """;
