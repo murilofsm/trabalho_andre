@@ -10,18 +10,18 @@ import persistencia.DaoFuncionario;
 
 public class Main {
 
-    private static ControlePrincipal controle;
     
     public static void main(String[] args) {
-        controle = new ControlePrincipal();
-        ControleLogin controleLogin = new ControleLogin(controle);
+        ControlePrincipal controle = new ControlePrincipal();
+
+        //ControleLogin controleLogin = new ControleLogin(controle);
 
         controle.getControleLogin().abrirTelaLogin();
     }
 
-    public static ControlePrincipal getControle() {
+   /* public static ControlePrincipal getControle() {
         return controle;
-    }
+    }*/
      
 /*
     static DaoEndereco daoEndereco = new DaoEndereco();

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.swing.JOptionPane;
 import modelo.*;
+import persistencia.DaoAluno;
 import persistencia.DaoCurso;
 import persistencia.DaoDocente;
 import persistencia.DaoFuncionario;
@@ -28,6 +29,7 @@ public abstract class ControleCadastroGenerico<T> implements IControleCadastro {
     private DaoFuncionario daoFuncionario = new DaoFuncionario();
     private DaoDocente daoDocente = new DaoDocente();
     private DaoCurso daoCurso = new DaoCurso();
+    private DaoAluno daoAluno = new DaoAluno();
 
     public ControleCadastroGenerico(Class classeModelo) {
         this.classeModelo = classeModelo;
@@ -75,27 +77,26 @@ public abstract class ControleCadastroGenerico<T> implements IControleCadastro {
     @Override
     public String[][] gerarDadosTabela(int qtdColunas, IControleCadastro controle) {
 
-        registros.clear();
+        List<T> lista = new ArrayList<>();
+        
         if (controle instanceof ControleAluno) {
-
+            lista.addAll(daoAluno.localizarTodosAlunosBanco());
         } else if (controle instanceof ControleFuncionario) {
             if (controle instanceof ControleDocente) {
-                registros.addAll(daoDocente.localizarTodosDocentesBanco());
+                lista.addAll(daoDocente.localizarTodosDocentesBanco());
             } else {
-                registros.addAll(daoFuncionario.localizarTodosFuncionariosBanco()); // adicionar todos os dados
+                lista.addAll(daoFuncionario.localizarTodosFuncionariosBanco()); // adicionar todos os dados
             }
         } else if (controle instanceof ControleCurso) {
-            registros.addAll(daoDocente.localizarTodosDocentesBanco());
-
-            registros.addAll(daoCurso.localizarTodosCursosBanco());
+            lista.addAll(daoCurso.localizarTodosCursosBanco());
 
         }
 
-        String[][] dados = new String[registros.size()][qtdColunas];
+        String[][] dados = new String[lista.size()][qtdColunas];
 
         int linha = 0;
 
-        for (T reg : registros) {
+        for (T reg : lista) {
             dados[linha] = getDadosEntidadeModeloParaTabela(reg);
             linha++;
         }

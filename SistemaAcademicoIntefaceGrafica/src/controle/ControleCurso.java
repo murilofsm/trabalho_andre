@@ -21,7 +21,7 @@ public class ControleCurso extends ControleCadastroGenerico<Curso> {
     public ControleCurso(ControleDocente controleDocente) {
         super(Curso.class);
         this.controleDocente = controleDocente;
-        setTelaCadastro(new TelaCadastroCurso(this));
+        //setTelaCadastro(new TelaCadastroCurso(this));
     }
     
     public ControleDocente getControleDocente() {

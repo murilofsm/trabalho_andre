@@ -7,14 +7,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import modelo.Curso;
+import modelo.Docente;
 import modelo.Endereco;
 import util.ConverterUtils;
 
-public class DaoAluno<T> extends DAO{
-    
+public class DaoAluno<T> extends DAO {
+
     private static DaoEndereco daoEndereco = new DaoEndereco();
-    
-    public void inserirAlunoBanco(Aluno al){
+
+    public void inserirAlunoBanco(Aluno al) {
         int idEndereco = daoEndereco.inserirEnderecoBanco(al.getEndereco());
 
         try {
@@ -48,7 +49,7 @@ public class DaoAluno<T> extends DAO{
             System.out.println("Erro no inserirAlunoBanco()\n" + ex.getMessage());
         }
     }
-    
+
     public void editarAlunoBanco(Aluno al) {
         try {
             String sql = """
@@ -82,7 +83,7 @@ public class DaoAluno<T> extends DAO{
             System.out.println("Erro no editarAlunoBanco()\n" + ex.getMessage());
         }
     }
-    
+
     public boolean removerAlunoBanco(int idAluno) {
         try {
             String sql = """
@@ -107,13 +108,13 @@ public class DaoAluno<T> extends DAO{
             return false;
         }
     }
-    
-    public Aluno localizarAlunoUnicoBanco(int idAluno){
+
+    public Aluno localizarAlunoUnicoBanco(int idAluno) {
         Aluno al = new Aluno();
-        
+
         return al;
     }
-/*
+
     public List<Aluno> localizarTodosAlunosBanco() {
 
         List<Aluno> result = new ArrayList<>();
@@ -129,7 +130,8 @@ public class DaoAluno<T> extends DAO{
                          """;
             ResultSet rs = consultaSQL(sql);
             while (rs.next()) {
-                Aluno aluno = new Aluno(
+                Aluno aluno;
+                aluno = new Aluno(
                         rs.getInt("id"),
                         rs.getString("nome"),
                         rs.getString("cpf"),
@@ -139,20 +141,22 @@ public class DaoAluno<T> extends DAO{
                         rs.getString("ra"),
                         rs.getDate("datamatricula").toLocalDate(),
                         rs.getString("situacao"),
-                        new Curso(
-                                rs.getInt("idcurso"),
-                                rs.getString("nome"),
-                                rs.getInt("cargahoraria"),
-                                rs.getInt("qtdsemestres")
-                        )
-                        
-                        /*new Endereco(
+                        new Endereco(
                                 rs.getInt("idendereco"),
                                 rs.getString("cidade"),
                                 rs.getString("rua"),
                                 rs.getString("numero")
-                        )*/
-              /*  );
+                        ),
+                        new Curso(
+                                rs.getInt("idcurso"),
+                                rs.getString("nome"),
+                                rs.getInt("cargahoraria"),
+                                rs.getInt("qtdsemestres"),
+                                new Docente(),
+                                0
+                        )
+                        
+                );
                 result.add(aluno);
             }
 
@@ -165,6 +169,4 @@ public class DaoAluno<T> extends DAO{
         return result;
     }
 
-    */
-    
 }

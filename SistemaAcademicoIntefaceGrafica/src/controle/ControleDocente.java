@@ -24,11 +24,15 @@ public class ControleDocente extends ControleFuncionario {
     }
 
     public List<Docente> getListaDocentes() {
-        return registros.stream().filter(x -> x.getClass().equals(Docente.class)).map(a -> (Docente) a).collect(Collectors.toList());
+        return daoDocente.localizarTodosDocentesBanco();
     }
 
-    public List<String> getNomesDocentes() {   
-        return registros.stream().filter(x -> x.getClass().equals(Docente.class)).map(x -> x.getNome()).collect(Collectors.toList());
+    public List<String> getNomesDocentes() {
+       
+        registros = daoDocente.localizarTodosDocentesBanco();
+        
+        return registros.stream().map(x -> x.getNome()).collect(Collectors.toList());
+            
     }
 
     public Docente getDocenteSelecionado(int index) {

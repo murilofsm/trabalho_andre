@@ -25,8 +25,6 @@ public class ControlePrincipal {
         this.controleCurso = new ControleCurso(controleDocente);
         this.controleAluno = new ControleAluno(controleCurso);
 
-//        controleCurso.getRegistros().add(new Curso("Tads",100,6,null));
-//        controleCurso.getRegistros().add(new Curso("Direito",100,6,null));
     }
 
     public ControleLogin getControleLogin() {

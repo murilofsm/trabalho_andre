@@ -31,7 +31,11 @@ public class TelaCadastroCurso extends TelaCadastro {
         jS_Semestres.setValue(6);
 
         ControleCurso controleCurso = (ControleCurso) controle;
+        
+
+        
         for (String nomeCoordenador : controleCurso.getControleDocente().getNomesDocentes()) {
+            System.out.println(nomeCoordenador);
             jC_Coordenador.addItem(nomeCoordenador);
         }
         jC_Coordenador.setSelectedIndex(0);
