@@ -51,6 +51,8 @@ public class ControleCurso extends ControleCadastroGenerico<Curso> {
     }
     
     public List<String> getNomesCursos() {
+        registros = daoCurso.localizarTodosCursosBanco();
+        
         return registros.stream().map(x -> x.getNome()).collect(Collectors.toList());
     }
     

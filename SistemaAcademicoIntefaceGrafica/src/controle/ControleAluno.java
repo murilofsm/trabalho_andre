@@ -5,11 +5,13 @@ import java.util.HashMap;
 import javax.swing.JOptionPane;
 import modelo.Aluno;
 import modelo.Curso;
+import persistencia.DaoAluno;
 import visao.TelaCadastroPessoa;
 
 public class ControleAluno extends ControlePessoa<Aluno> {
 
     private ControleCurso controleCurso;
+    private DaoAluno daoAluno = new DaoAluno();
     
     public ControleAluno(ControleCurso controleCurso) {
         super(Aluno.class);
@@ -73,6 +75,7 @@ public class ControleAluno extends ControlePessoa<Aluno> {
     public void salvar(HashMap<String, Object> dados) {
         Aluno al = new Aluno();
         setarDadosObjeto(al, dados);
+        daoAluno.inserirAlunoBanco(al);
         registros.add(al);
     }
 
