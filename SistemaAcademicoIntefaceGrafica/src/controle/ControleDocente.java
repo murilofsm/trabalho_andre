@@ -28,11 +28,12 @@ public class ControleDocente extends ControleFuncionario {
     }
 
     public List<String> getNomesDocentes() {
-       
+        registros.clear();
+
         registros = daoDocente.localizarTodosDocentesBanco();
-        
+
         return registros.stream().map(x -> x.getNome()).collect(Collectors.toList());
-            
+
     }
 
     public Docente getDocenteSelecionado(int index) {
