@@ -53,12 +53,12 @@ public class ControleAluno extends ControlePessoa<Aluno> {
 
     @Override
     public void abrirTelaCadastroParaEdicao(int index) {
-        registroSelecionado = registros.get(index);
+        registroSelecionado = daoAluno.localizarAlunoUnicoBanco(index);
         if (registroSelecionado == null) {
             JOptionPane.showMessageDialog(null, "Falha ao Editar \nRegistro não encontrado!", "Falha ao Editar", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
+        
         telaCadastro.setarDadosTela(getDadosObjeto(registroSelecionado));
         telaCadastro.setEditarDados(true);
         telaCadastro.setVisible(true);
@@ -68,6 +68,7 @@ public class ControleAluno extends ControlePessoa<Aluno> {
     public void editar(HashMap<String, Object> dados) {
         if (registroSelecionado != null) {
             setarDadosObjeto(registroSelecionado, dados);
+            daoAluno.editarAlunoBanco((Aluno) registroSelecionado);
         }
     }
 
@@ -81,7 +82,10 @@ public class ControleAluno extends ControlePessoa<Aluno> {
 
     @Override
     public boolean removerCadastro(int index) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (daoAluno.removerAlunoBanco(index)) {
+            return true;
+        };
+        return false;
     }
     
    

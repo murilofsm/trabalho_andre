@@ -91,6 +91,7 @@ public class TelaCadastroPessoa extends TelaCadastro {
      * [0] - nome [1] - cpf [2] - email [3] - genero [4] - data de nascimento
      */
     public void setarDadosTela(HashMap<String, Object> dados) {
+        System.out.println("entrou no setardadostela");
         if (dados == null || dados.isEmpty()) {
             DialogBoxUtils.exibirMensagemDeErro("Erro", "Erro ao setar dados na tela");
         }
@@ -99,10 +100,13 @@ public class TelaCadastroPessoa extends TelaCadastro {
         jTF_Cpf.setText((String) dados.get("cpf"));
         jTF_Email.setText((String) dados.get("email"));
 
-        if (((String) dados.get("genero")).equalsIgnoreCase("Masculino")) {
-            jRB_Masculino.setSelected(true);
-        } else if (((String) dados.get("genero")).equalsIgnoreCase("Feminino")) {
-            jRB_Feminino.setSelected(true);
+        String genero = (String) dados.get("genero");
+        if (genero != null){
+            if (((String) dados.get("genero")).equalsIgnoreCase("Masculino")) {
+                jRB_Masculino.setSelected(true);
+            } else if (((String) dados.get("genero")).equalsIgnoreCase("Feminino")) {
+                jRB_Feminino.setSelected(true);
+            }
         }
 
         if (dados.get("datanascimento") != null) {

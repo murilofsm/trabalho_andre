@@ -2,6 +2,13 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/emanu/OneDrive/Documentos/4%20-%20semestre/github/trabalho_andre/trabalho_andre/SistemaAcademicoIntefaceGrafica/src/modelo/Aluno.java</file>
+            <file>file:/C:/Users/emanu/OneDrive/Documentos/4%20-%20semestre/github/trabalho_andre/trabalho_andre/SistemaAcademicoIntefaceGrafica/src/modelo/Curso.java</file>
+            <file>file:/C:/Users/emanu/OneDrive/Documentos/4%20-%20semestre/github/trabalho_andre/trabalho_andre/SistemaAcademicoIntefaceGrafica/src/persistencia/DaoAluno.java</file>
+            <file>file:/C:/Users/emanu/OneDrive/Documentos/4%20-%20semestre/github/trabalho_andre/trabalho_andre/SistemaAcademicoIntefaceGrafica/src/modelo/Docente.java</file>
+            <file>file:/C:/Users/emanu/OneDrive/Documentos/4%20-%20semestre/github/trabalho_andre/trabalho_andre/SistemaAcademicoIntefaceGrafica/src/controle/ControleAluno.java</file>
+            <file>file:/C:/Users/emanu/OneDrive/Documentos/4%20-%20semestre/github/trabalho_andre/trabalho_andre/SistemaAcademicoIntefaceGrafica/src/principal/Main.java</file>
+        </group>
     </open-files>
 </project-private>

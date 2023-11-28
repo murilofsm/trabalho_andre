@@ -59,7 +59,7 @@ public class DaoAluno<T> extends DAO {
                             WHERE a.id = ?;
                          """;
             PreparedStatement stmt = criarPreparedStatement(sql);
-
+            
             stmt.setString(1, al.getNome());
             stmt.setString(2, al.getCpf());
             stmt.setString(3, al.getEmail());
@@ -68,9 +68,10 @@ public class DaoAluno<T> extends DAO {
             stmt.setString(6, al.getRa());
             stmt.setDate(7, ConverterUtils.localDateParaDate(al.getDataMatricula()));
             stmt.setString(8, al.getSituacao());
-            stmt.setString(9, al.getEndereco().getRua());
-            stmt.setString(10, al.getEndereco().getNumero());
-            stmt.setInt(11, al.getId());
+            stmt.setString(9, al.getEndereco().getCidade());
+            stmt.setString(10, al.getEndereco().getRua());
+            stmt.setString(11, al.getEndereco().getNumero());
+            stmt.setInt(12, al.getId());
 
             int linhasAfetadas = stmt.executeUpdate();
 
@@ -112,6 +113,62 @@ public class DaoAluno<T> extends DAO {
     public Aluno localizarAlunoUnicoBanco(int idAluno) {
         Aluno al = new Aluno();
 
+        try {
+            String sql = """
+                        
+                        SELECT a.id, a.nome, a.cpf, a.email, a.genero, a.datanascimento, a.ra, a.datamatricula, a.situacao, a.idcurso, c.nome, 
+                        c.cargahoraria, c.qtdsemestres, a.idendereco, e.cidade, e.rua, e.numero, c.idcoordenador, d.nome, d.cpf, d.email, d.genero, 
+                        d.datanascimento, d.ctps, d.formacao, d.salario
+                        FROM aluno a
+                        inner join curso c on a.idcurso = c.id
+                        inner join endereco e on a.idendereco = e.id
+                        inner join docente d on c.idcoordenador = d.id
+                        where a.id = ?;
+                         
+                        """;
+
+            PreparedStatement stmt = criarPreparedStatement(sql);
+
+            stmt.setInt(1, idAluno);
+
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                al.setId(rs.getInt("id"));
+                al.setNome(rs.getString("nome"));
+                al.setCpf(rs.getString("cpf"));
+
+                al.setEmail(rs.getString("email"));
+                al.setGenero(rs.getString("genero"));
+                al.setDataNascimento(rs.getDate("datanascimento").toLocalDate());
+                al.setRa(rs.getString("ra"));
+                al.setDataMatricula(rs.getDate("datamatricula").toLocalDate());
+                al.setSituacao(rs.getString("situacao"));
+                al.setEndereco(new Endereco(
+                        rs.getInt("idendereco"),
+                        rs.getString("cidade"),
+                        rs.getString("rua"),
+                        rs.getString("numero"))
+                );
+                al.setCurso(new Curso(
+                        rs.getInt("a.idcurso"),
+                        rs.getString("c.nome"),
+                        rs.getInt("c.cargahoraria"),
+                        rs.getInt("c.qtdsemestres"),
+                        
+                        new Docente(), 0)
+                );
+                
+                
+                
+            }
+
+            rs.close();
+
+        } catch (SQLException ex) {
+            System.out.println("Erro no localizarFuncionarioUnicoBanco()\n" + ex.getMessage());
+        }
+        
         return al;
     }
 
